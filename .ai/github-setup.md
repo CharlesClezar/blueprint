@@ -48,6 +48,8 @@ Antes de aplicar, é possível visualizar ou auditar:
 
 `--dry-run` descreve a configuração pretendida sem alterar o GitHub. `--check` lê o estado remoto, compara propriedades, labels, Project, campos e Rulesets e retorna falha quando encontra drift.
 
+Rulesets precisam estar disponíveis para o repositório e o plano da conta. Em contas nas quais esse recurso não é oferecido para repositórios privados, use um repositório público ou um plano GitHub compatível. O configurador interrompe a execução com uma mensagem acionável quando a API de Rulesets não está disponível; ele nunca tenta reutilizar uma resposta de erro como identificador.
+
 O script mostra o repositório e o proprietário identificados pelo `gh`, pede confirmação e então:
 
 1. cria ou atualiza labels estáveis;
