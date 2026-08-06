@@ -112,14 +112,17 @@ audit_configuration() {
     if [ "$status_names" = "$desired_status_names" ]; then pass "Project Status options match Blueprint"; else fail "Project Status options match Blueprint"; fi
   fi
 
-  rulesets_json=$(gh api "repos/$repository/rulesets?includes_parents=false")
-  for ruleset_name in "Blueprint - protect main" "Blueprint - immutable version tags"; do
-    if printf '%s' "$rulesets_json" | jq -e --arg name "$ruleset_name" '.[] | select(.name == $name and .enforcement == "active")' >/dev/null; then
-      pass "Active Ruleset: $ruleset_name"
-    else
-      fail "Active Ruleset: $ruleset_name"
-    fi
-  done
+  if rulesets_json=$(gh api "repos/$repository/rulesets?includes_parents=false" 2>/dev/null); then
+    for ruleset_name in "Blueprint - protect main" "Blueprint - immutable version tags"; do
+      if printf '%s' "$rulesets_json" | jq -e --arg name "$ruleset_name" '.[] | select(.name == $name and .enforcement == "active")' >/dev/null; then
+        pass "Active Ruleset: $ruleset_name"
+      else
+        fail "Active Ruleset: $ruleset_name"
+      fi
+    done
+  else
+    fail "Rulesets API is available for this repository and account plan"
+  fi
 
   warn "Native Project workflows cannot be fully audited by the stable gh CLI; verify them in Project → Workflows"
 
@@ -239,7 +242,7 @@ fi
 apply_ruleset() {
   ruleset_name=$1
   ruleset_file=$2
-  ruleset_id=$(gh api "repos/$repository/rulesets?includes_parents=false" --jq ".[] | select(.name == \"$ruleset_name\") | .id" | head -1)
+  ruleset_id=$(printf '%s' "$rulesets_json" | jq -r --arg name "$ruleset_name" '.[] | select(.name == $name) | .id' | head -1)
   if [ -z "$ruleset_id" ]; then
     gh api --method POST "repos/$repository/rulesets" --input "$ruleset_file" >/dev/null
     echo "Created Ruleset: $ruleset_name"
@@ -248,6 +251,12 @@ apply_ruleset() {
     echo "Updated Ruleset #$ruleset_id: $ruleset_name"
   fi
 }
+
+if ! rulesets_json=$(gh api "repos/$repository/rulesets?includes_parents=false"); then
+  echo "ERROR: Rulesets are unavailable for this repository or account plan." >&2
+  echo "Use a public repository or a GitHub plan that supports Rulesets for private repositories, then rerun this script." >&2
+  exit 1
+fi
 
 apply_ruleset "Blueprint - protect main" ".github/rulesets/main.json"
 apply_ruleset "Blueprint - immutable version tags" ".github/rulesets/version-tags.json"
