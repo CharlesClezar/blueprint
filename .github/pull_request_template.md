@@ -61,6 +61,7 @@ Closes #<número>
 - [ ] Referências foram pesquisadas novamente após a alteração.
 - [ ] Impactos de segurança, dados, dependências, permissões e ações externas foram avaliados.
 - [ ] Política de engenharia e contexto específico da stack foram respeitados.
+- [ ] Política de integração foi verificada; auto-merge só será solicitado se estiver autorizado.
 - [ ] Nenhuma mudança fora do escopo.
 - [ ] Limitações e verificações não executadas declaradas.
 - [ ] Branch segue o padrão e será removida após o merge.

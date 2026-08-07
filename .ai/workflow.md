@@ -92,6 +92,18 @@ Se houver uma única correspondência coerente, deve resumir o estado e retomar 
 - Controle: ideias novas viram follow-up e não são impostas ao PR.
 - Project: pedido de alterações que reabre implementação retorna a issue para `In Progress`; aprovação técnica isolada não move para `Done`.
 
+#### Integração e auto-merge
+
+Habilitar auto-merge nas configurações do repositório não integra todo PR verde automaticamente. Cada PR elegível recebe uma solicitação individual:
+
+```sh
+gh pr merge <numero> --auto --squash --delete-branch
+```
+
+A IA pode solicitá-la somente quando a política previamente aprovada permitir, a issue tiver passado por `Ready`, a entrega estiver completa, não houver decisão ou aceite humano pendente, os riscos estiverem tratados e o Ruleset continuar íntegro. Checks pendentes serão aguardados pelo GitHub; checks com falha bloqueiam a integração e devem ser diagnosticados, nunca contornados.
+
+Depois do merge, a IA confirma o estado remoto, verifica o fechamento da issue, aplica a DoD, move o item para `Done`, sincroniza a `main` local por fast-forward e remove a branch local. Se qualquer condição não estiver satisfeita, mantém o PR aberto e informa o próximo controle necessário.
+
 ### Decisão arquitetural
 
 - Gatilho: decisão estrutural material não coberta por orientação vigente.
