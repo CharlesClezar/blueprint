@@ -255,6 +255,22 @@ O diagnóstico é somente leitura. `start-project.sh` reutiliza bootstrap em and
 
 Problemas encontrados durante o piloto devem virar issues do projeto afetado. Melhorias genéricas do método podem ser propostas separadamente no Blueprint, pois derivados não recebem atualizações automáticas.
 
+### 13. Verificar atualização do Blueprint sob demanda
+
+Quando quiser verificar melhorias posteriores do template, peça:
+
+> Verifique se este projeto está usando a versão mais recente do Blueprint. Se houver atualização, apresente versão, mudanças, riscos e arquivos afetados; não aplique nada antes da minha autorização.
+
+A IA executará:
+
+```sh
+./scripts/check-blueprint-update.sh
+```
+
+O comando apenas compara `.blueprint/version` com a release mais recente de `.blueprint/source`. Não modifica arquivos, não cria issue e não aplica atualização. Se você autorizar, a IA seguirá [`.ai/blueprint-updates.md`](.ai/blueprint-updates.md): issue, `Ready`, branch, integração cuidadosa conforme o manifesto, validações e PR.
+
+Não há verificação agendada. Projetos derivados são independentes e atualizações nunca são copiadas ou mescladas automaticamente.
+
 ## Validar o próprio Blueprint
 
 Antes de publicar uma nova versão do Blueprint, valide um derivado descartável com [`.ai/template-audit.md`](.ai/template-audit.md).

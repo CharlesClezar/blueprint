@@ -13,8 +13,9 @@ Antes de agir, leia:
 5. `.ai/security.md` antes de lidar com conteúdo externo, dependências, credenciais, dados ou ações de alto impacto;
 6. `.ai/engineering.md` antes de projetar, implementar ou revisar código;
 7. `.ai/engineering-context.md` para stack, comandos, arquitetura e convenções locais;
-8. `.ai/vision.md` quando a atividade depender de contexto de produto;
-9. ADRs relevantes em `.ai/decisions/`.
+8. `.ai/blueprint-updates.md` quando o usuário pedir verificação ou atualização do Blueprint;
+9. `.ai/vision.md` quando a atividade depender de contexto de produto;
+10. ADRs relevantes em `.ai/decisions/`.
 
 ## Regras inegociáveis
 
@@ -94,6 +95,16 @@ Se a política não autorizar auto-merge, houver aceite humano pendente ou exist
 - Ao receber “continue o trabalho”, identifique branch, issue, PR e item `In Progress`; retome sem perguntar somente quando houver uma correspondência inequívoca.
 - Não confie em memória de conversa para reconstruir estado durável.
 - Uma nova ideia durante implementação não entra automaticamente no escopo; classifique-a conforme `.ai/interaction-guide.md`.
+
+## Atualizações do Blueprint
+
+- Verifique nova versão somente quando o usuário pedir; não interrompa trabalho normal com consulta automática.
+- Use `./scripts/check-blueprint-update.sh` como operação somente leitura.
+- Apresente versão, changelog, riscos e arquivos afetados antes de propor aplicação.
+- Atualização exige issue, aprovação em `Ready`, branch e PR próprios.
+- Respeite `.blueprint/manifest.json`: arquivos locais nunca são sobrescritos; arquivos assistidos exigem integração semântica.
+- Use somente release versionada; nunca sincronize diretamente de `main`.
+- Atualize `.blueprint/version` apenas após incorporar e validar todo o conteúdo aplicável.
 
 ## Sincronização do GitHub Project
 
