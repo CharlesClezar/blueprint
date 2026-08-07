@@ -7,27 +7,28 @@ head_ref=${PR_HEAD_REF:-}
 base_ref=${PR_BASE_REF:-}
 body=${PR_BODY:-}
 repository=${GITHUB_REPOSITORY:-}
+pr_number=${PR_NUMBER:-}
 draft=${PR_DRAFT:-true}
 
 if [ -z "$head_ref" ] || [ -z "$base_ref" ]; then
-  echo "ERROR: PR_HEAD_REF and PR_BASE_REF are required." >&2
+  echo "ERRO: PR_HEAD_REF e PR_BASE_REF são obrigatórios." >&2
   exit 1
 fi
 
 if [ "$base_ref" != "main" ]; then
-  echo "ERROR: pull requests must target main; received '$base_ref'." >&2
+  echo "ERRO: pull requests devem apontar para main; recebido '$base_ref'." >&2
   exit 1
 fi
 
 if ! printf '%s\n' "$head_ref" | grep -Eq '^(bootstrap|feature|bugfix|technical|docs|research)/[0-9]+-[a-z0-9]+([a-z0-9-]*[a-z0-9])?$'; then
-  echo "ERROR: branch '$head_ref' does not follow <type>/<issue>-<slug>." >&2
+  echo "ERRO: a branch '$head_ref' não segue <tipo>/<issue>-<slug>." >&2
   exit 1
 fi
 
 issue_number=$(printf '%s\n' "$head_ref" | sed -E 's#^[^/]+/([0-9]+)-.*#\1#')
 
 if ! printf '%s\n' "$body" | grep -Eiq "(^|[^0-9])(closes|closed|close|fixes|fixed|fix|resolves|resolved|resolve|relates to)[[:space:]]+#${issue_number}([^0-9]|$)"; then
-  echo "ERROR: PR body must explicitly reference issue #$issue_number with Closes/Fixes/Resolves or Relates to." >&2
+  echo "ERRO: o corpo do PR deve referenciar explicitamente a issue #$issue_number com Closes/Fixes/Resolves ou Relates to." >&2
   exit 1
 fi
 
@@ -36,12 +37,24 @@ if [ -n "${GH_TOKEN:-}" ] && [ -n "$repository" ] && command -v gh >/dev/null 2>
   is_pull_request=$(printf '%s\n' "$issue_data" | cut -f1)
   issue_state=$(printf '%s\n' "$issue_data" | cut -f2)
   if [ "$is_pull_request" = "true" ]; then
-    echo "ERROR: #$issue_number resolves to a pull request, not an issue." >&2
+    echo "ERRO: #$issue_number aponta para um pull request, não para uma issue." >&2
     exit 1
   fi
   if [ "$issue_state" != "open" ]; then
-    echo "ERROR: origin issue #$issue_number must be open while the pull request is active." >&2
-    exit 1
+    pr_merged=false
+    if printf '%s' "$pr_number" | grep -Eq '^[0-9]+$'; then
+      merged_at=$(gh api "repos/$repository/pulls/$pr_number" --jq '.merged_at // ""')
+      if [ -n "$merged_at" ]; then
+        pr_merged=true
+      fi
+    fi
+
+    if [ "$pr_merged" != true ]; then
+      echo "ERRO: a issue de origem #$issue_number deve estar aberta enquanto o pull request #${pr_number:-desconhecido} estiver ativo." >&2
+      exit 1
+    fi
+
+    echo "INFO: a issue de origem #$issue_number está fechada porque o pull request #$pr_number já foi integrado."
   fi
 fi
 
@@ -61,7 +74,7 @@ if [ "$draft" = "false" ]; then
   while IFS= read -r heading; do
     [ -z "$heading" ] && continue
     if ! printf '%s\n' "$body" | grep -Fqx "$heading"; then
-      echo "ERROR: ready-for-review PR is missing required heading: $heading" >&2
+      echo "ERRO: o PR pronto para revisão não contém o título obrigatório: $heading" >&2
       exit 1
     fi
   done <<EOF
@@ -69,7 +82,7 @@ $required_headings
 EOF
 
   if printf '%s\n' "$body" | grep -Eq '#<número>|<O que mudou e por quê>|<item ou “Nenhum conhecido”>'; then
-    echo "ERROR: ready-for-review PR still contains template placeholders." >&2
+    echo "ERRO: o PR pronto para revisão ainda contém placeholders do template." >&2
     exit 1
   fi
 
@@ -89,7 +102,7 @@ Branch segue o padrão e será removida após o merge.
   while IFS= read -r check_text; do
     [ -z "$check_text" ] && continue
     if ! printf '%s\n' "$body" | grep -Fqi -- "- [x] $check_text"; then
-      echo "ERROR: ready-for-review PR has an unchecked required item: $check_text" >&2
+      echo "ERRO: o PR pronto para revisão possui item obrigatório desmarcado: $check_text" >&2
       exit 1
     fi
   done <<EOF
@@ -97,4 +110,4 @@ $required_checks
 EOF
 fi
 
-echo "Pull request traceability validation passed for issue #$issue_number."
+echo "Validação de rastreabilidade do pull request aprovada para a issue #$issue_number."

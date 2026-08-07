@@ -4,6 +4,8 @@
 
 Este guia não cria permissões novas. `workflow.md`, `backlog.md`, a issue e as decisões vigentes continuam sendo as fontes oficiais.
 
+Salvo solicitação explícita em contrário ou exigência técnica, o agente conduz a conversa e redige documentação, issues, PRs, commits e relatórios em português. Termos oficiais de ferramentas podem ser mantidos no idioma original e explicados em português.
+
 ## Princípio de continuidade
 
 Uma conversa pode terminar a qualquer momento. Para que outra sessão ou ferramenta continue corretamente, o estado durável deve estar no repositório e no GitHub:
@@ -186,3 +188,16 @@ O primeiro pedido é somente análise. O segundo autoriza o workflow controlado 
 - “Faça o deploy” sem política ou autorização aplicável.
 
 Nesses casos, o agente deve explicar o controle necessário e conduzir o próximo passo válido, sem transformar o processo em obstáculo desnecessário.
+
+## Etapas manuais em ferramentas externas
+
+Quando uma configuração necessária não puder ser concluída por CLI, API ou integração disponível, o agente deve:
+
+1. explicar por que a etapa é manual e qual efeito ela produz;
+2. fornecer o caminho exato na interface e os valores a selecionar;
+3. conduzir uma etapa por vez quando a interface puder variar;
+4. solicitar confirmação ou captura da tela para validar sinais observáveis;
+5. não declarar a configuração concluída antes da confirmação;
+6. registrar o procedimento na documentação oficial para que outra sessão consiga repeti-lo.
+
+Ícones de alerta em workflows desabilitados não são, por si só, falhas. O agente deve distinguir claramente estado desabilitado, configuração incompleta e erro de execução.

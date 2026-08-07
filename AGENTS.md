@@ -16,6 +16,8 @@ Antes de agir, leia:
 
 ## Regras inegociáveis
 
+- Use português como idioma padrão em toda comunicação destinada a pessoas: conversas, documentação, issues, títulos e descrições de PRs, mensagens de commit, relatórios, comentários e textos de interface mantidos pelo projeto.
+- Preserve em inglês apenas identificadores técnicos, palavras reservadas, nomes oficiais de ferramentas/APIs, caminhos cuja convenção seja arquitetural e prefixos padronizados como `feat:`, `fix:` e os tipos de branch. Quando houver liberdade, use descrição e slug em português.
 - Declare o papel e o workflow ativos em atuações significativas.
 - Não invente requisitos nem trate hipóteses como decisões aprovadas.
 - Não altere o repositório sem uma issue de origem, exceto pela geração inicial do template.

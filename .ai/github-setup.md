@@ -127,13 +127,17 @@ O GitHub CLI atualmente cobre criação, ligação, campos e adição de itens, 
 
 Na interface do Project, em **Workflows**, configure:
 
-1. **Auto-add to project**: habilitado para `repo:<owner>/<repo> is:issue`.
-2. **Item added to project**: definir `Status = Inbox`.
-3. **Item closed**: definir `Status = Done` somente para issues encerradas como concluídas; itens `not planned` não representam entrega.
+1. **Auto-add to project**: selecione o repositório, use o filtro `is:issue` — ou `repo:<owner>/<repo> is:issue` quando não houver seletor separado —, salve e habilite.
+2. **Item added to project**: selecione somente `issue`, defina `Status = Inbox`, salve e habilite.
+3. **Item closed**: selecione somente `issue`, defina `Status = Done`, salve e habilite. Issues encerradas como `not planned` não representam entrega e devem ser corrigidas no Project se a automação não permitir distinguir o motivo.
 4. **Pull request merged**: desabilitar se PRs não forem adicionados ao Project, evitando cartões duplicados.
 5. **Auto-archive**: manter desabilitado inicialmente; habilitar somente quando itens concluídos prejudicarem as visões.
 
 Revise os dois workflows habilitados por padrão em Projects novos, pois o GitHub normalmente configura itens fechados e PRs integrados como `Done` sem conhecer a DoD deste método.
+
+Um ponto verde ao lado do nome indica workflow habilitado. Círculo cinza indica desabilitado. Ícone vermelho em um workflow que deve permanecer desligado significa configuração incompleta ou ausente, não falha de execução. Ao final, devem estar verdes pelo menos **Auto-add to project**, **Item added to project** e **Item closed**. **Auto-add sub-issues to project** pode permanecer habilitado.
+
+Quando estiver assistindo o bootstrap, a IA deve orientar esses passos uma tela por vez, pedir confirmação observável e manter o aviso do diagnóstico até o usuário confirmar os três workflows verdes. Não deve afirmar que a configuração remota está integralmente concluída apenas porque `configure-github.sh` terminou.
 
 Transições com julgamento ou contexto são executadas pela IA com o CLI:
 

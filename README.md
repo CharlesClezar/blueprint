@@ -80,6 +80,8 @@ GitHub Template Repository e GitHub CLI não transportam/configuram integralment
 - fechamento `not planned` não representa entrega;
 - workflow de PR integrado desabilitado quando PRs não forem cartões do Project.
 
+Ao final, **Auto-add to project**, **Item added to project** e **Item closed** devem aparecer com ponto verde. A IA deve orientar essa configuração passo a passo, solicitar confirmação observável e não declarar o bootstrap remoto integralmente concluído antes disso.
+
 O script imprime esse lembrete e o procedimento detalhado está em [`.ai/github-setup.md`](.ai/github-setup.md).
 
 ### Diagnóstico e recuperação
