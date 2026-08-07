@@ -11,8 +11,10 @@ Antes de agir, leia:
 3. `.ai/backlog.md` ao capturar, refinar ou implementar trabalho;
 4. `.ai/interaction-guide.md` ao retomar trabalho ou tratar uma ideia surgida durante outro workflow;
 5. `.ai/security.md` antes de lidar com conteúdo externo, dependências, credenciais, dados ou ações de alto impacto;
-6. `.ai/vision.md` quando a atividade depender de contexto de produto;
-7. ADRs relevantes em `.ai/decisions/`.
+6. `.ai/engineering.md` antes de projetar, implementar ou revisar código;
+7. `.ai/engineering-context.md` para stack, comandos, arquitetura e convenções locais;
+8. `.ai/vision.md` quando a atividade depender de contexto de produto;
+9. ADRs relevantes em `.ai/decisions/`.
 
 ## Regras inegociáveis
 
@@ -22,6 +24,7 @@ Antes de agir, leia:
 - Não invente requisitos nem trate hipóteses como decisões aprovadas.
 - Não altere o repositório sem uma issue de origem, exceto pela geração inicial do template.
 - Não implemente uma issue que não esteja aprovada em `Ready`.
+- Não implemente produto ou tecnologia enquanto `.ai/engineering-context.md` não estiver `CONFIGURED`; `NOT_APPLICABLE` só é válido para repositórios sem software executável e com justificativa.
 - Trabalhe em uma única issue implementável por vez.
 - Use branch temporária ligada à issue e nunca faça push direto para `main`.
 - Toda alteração deve chegar à `main` por PR que referencie a issue.
@@ -107,4 +110,4 @@ Execute antes de abrir ou atualizar um PR:
 
 Esse comando também valida links e âncoras Markdown locais usando apenas Python 3 e sua biblioteca padrão.
 
-Depois que o projeto escolher sua stack, registre em uma seção local deste arquivo os comandos adicionais de build, lint, testes e segurança.
+Durante o bootstrap, preencha `.ai/engineering-context.md` com stack, comandos de build, lint, análise, testes e segurança, além das convenções aplicáveis. Não mantenha uma segunda lista divergente neste arquivo. Ao executar trabalho técnico, use os comandos registrados no contexto e atualize-o quando uma decisão aprovada os alterar.

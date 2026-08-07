@@ -68,6 +68,7 @@ if [ "$draft" = "false" ]; then
 ## Análise de impacto e consistência
 ## Riscos, limitações e follow-ups
 ## Segurança
+## Engenharia
 ## Checklist
 "
 
@@ -94,6 +95,7 @@ Documentação afetada atualizada.
 Fonte oficial e todas as representações relacionadas permanecem coerentes.
 Referências foram pesquisadas novamente após a alteração.
 Impactos de segurança, dados, dependências, permissões e ações externas foram avaliados.
+Política de engenharia e contexto específico da stack foram respeitados.
 Nenhuma mudança fora do escopo.
 Limitações e verificações não executadas declaradas.
 Branch segue o padrão e será removida após o merge.

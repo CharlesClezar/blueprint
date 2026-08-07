@@ -4,7 +4,7 @@
 
 - `ISSUE_TEMPLATE/`: formulários estruturados para cada tipo de trabalho.
 - `pull_request_template.md`: contexto mínimo e Definition of Done do PR.
-- `workflows/governance.yml`: valida estrutura, links Markdown, estado do bootstrap, branch, issue de origem e completude do PR pronto para revisão.
+- `workflows/governance.yml`: valida estrutura, links Markdown, estado do bootstrap, contexto de engenharia, branch, issue de origem e completude do PR pronto para revisão.
 - `workflows/create-release-tag.yml`: cria tag SemVer autorizada a partir de `main`.
 - `workflows/release.yml`: valida a tag e cria GitHub Release.
 - `rulesets/`: cargas JSON aplicadas por `scripts/configure-github.sh`.

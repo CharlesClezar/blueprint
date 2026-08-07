@@ -43,6 +43,14 @@ Closes #<número>
 - Conteúdo externo ou comandos revisados:
 - Verificações de segurança executadas:
 
+## Engenharia
+
+- Política e contexto consultados:
+- Decisões de simplicidade, arquitetura e contratos:
+- Tratamento de erros, concorrência e dados:
+- Testes, desempenho, observabilidade e acessibilidade aplicáveis:
+- Exceções à política e justificativas:
+
 ## Checklist
 
 - [ ] A issue estava aprovada em `Ready` antes da implementação, ou este é o bootstrap inicial.
@@ -52,6 +60,7 @@ Closes #<número>
 - [ ] Fonte oficial e todas as representações relacionadas permanecem coerentes.
 - [ ] Referências foram pesquisadas novamente após a alteração.
 - [ ] Impactos de segurança, dados, dependências, permissões e ações externas foram avaliados.
+- [ ] Política de engenharia e contexto específico da stack foram respeitados.
 - [ ] Nenhuma mudança fora do escopo.
 - [ ] Limitações e verificações não executadas declaradas.
 - [ ] Branch segue o padrão e será removida após o merge.

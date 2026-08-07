@@ -14,6 +14,8 @@
 | Hierarquia, tipos, estados e regras do backlog | `.ai/backlog.md` |
 | Como conversar, interromper e retomar trabalho | `.ai/interaction-guide.md` |
 | Segurança, dados, dependências e ações de alto impacto | `.ai/security.md` |
+| Política geral de qualidade e implementação | `.ai/engineering.md` |
+| Stack, comandos e convenções técnicas locais | `.ai/engineering-context.md` |
 | Trabalho acionável | GitHub Issue |
 | Estado, prioridade e visão transversal | GitHub Project |
 | Discussão ligada a uma mudança | Issue ou pull request |
@@ -50,7 +52,7 @@ Uma mudança deve preservar a coerência do assunto em todo o repositório. Ante
 
 - Descoberta: `project-init.md`, `vision.md` e `workflow.md`.
 - Planejamento: `vision.md`, `backlog.md` e `workflow.md`.
-- Implementação: issue aprovada, `AGENTS.md`, `workflow.md` e ADRs ligados.
+- Implementação: issue aprovada, `AGENTS.md`, `workflow.md`, `engineering.md`, `engineering-context.md` e ADRs ligados.
 - Trabalho sensível: `security.md`, além das fontes do workflow ativo.
 - Revisão: issue, PR, critérios de aceite, diff, evidências e DoD.
 - Release: política aprovada do projeto, commit validado em `main`, tag e checks.
