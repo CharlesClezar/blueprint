@@ -33,9 +33,40 @@ Este é o **repositório-base**. Ao criar um projeto a partir dele, execute o pr
 
 Auto-merge fica disponível, mas precisa ser solicitado individualmente para cada PR elegível. A IA só faz isso quando a política aprovada autorizar e todos os controles aplicáveis estiverem satisfeitos; check verde isolado não concede autorização. Consulte [`.ai/workflow.md`](.ai/workflow.md#integração-e-auto-merge).
 
-## Criar um projeto derivado — caminho recomendado
+## Iniciar um projeto de ponta a ponta
 
-Não clone o Blueprint diretamente. Gere um repositório independente pelo template e clone o derivado:
+Este é o caminho recomendado desde a criação do repositório até a primeira versão. Execute as etapas na ordem. Quando uma política exigir decisão humana, a IA deve apresentar opções e aguardar sua aprovação em vez de inventar uma resposta.
+
+### 1. Preparar o ambiente
+
+Tenha disponível:
+
+- Git;
+- [GitHub CLI](https://cli.github.com/) autenticado com `gh auth login`;
+- `jq`;
+- Python 3;
+- shell POSIX: macOS, Linux, WSL ou Git Bash.
+
+Confirme:
+
+```sh
+git --version
+gh auth status
+jq --version
+python3 --version
+```
+
+Para criar e configurar GitHub Projects, o token do `gh` precisa dos escopos correspondentes:
+
+```sh
+gh auth refresh -s project,read:project
+```
+
+Rulesets para repositórios privados dependem do plano GitHub. Em conta sem suporte, crie o derivado como público ou use um plano compatível; o configurador interrompe com orientação em vez de aplicar proteção incompleta.
+
+### 2. Criar e clonar o derivado
+
+Não clone o Blueprint diretamente. Gere um repositório independente pelo template:
 
 ```sh
 gh repo create SEU_USUARIO/NOVO_PROJETO \
@@ -48,7 +79,15 @@ cd NOVO_PROJETO
 
 Use `--public` em vez de `--private` quando apropriado. Não use `--include-all-branches`.
 
-Depois, execute o assistente de inicialização:
+Confirme que o remote aponta para o novo projeto, nunca para o Blueprint:
+
+```sh
+git remote -v
+```
+
+### 3. Executar o assistente de bootstrap
+
+Na raiz do projeto derivado:
 
 ```sh
 ./scripts/start-project.sh
@@ -68,35 +107,155 @@ Ele pede confirmação antes de alterar o GitHub e executa, na ordem:
 
 O script não inventa nome, problema, requisitos, stack ou arquitetura. A IA deve preencher `.ai/engineering-context.md` durante o bootstrap somente com decisões aprovadas pelo usuário e usar `N/A — <justificativa>` no que realmente não se aplicar. O script também não faz commit, push, PR, merge, release ou deploy.
 
-Ao final, abra sua ferramenta de IA na raiz e peça:
+### 4. Configurar os workflows manuais do Project
+
+GitHub Template Repository e GitHub CLI não transportam/configuram integralmente os workflows nativos do Project. Abra o Project criado em **Project → Workflows** e configure:
+
+1. **Auto-add to project**: selecione o novo repositório, use `is:issue`, salve e habilite;
+2. **Item added to project**: somente `issue`, `Status = Inbox`, salve e habilite;
+3. **Item closed**: somente `issue`, `Status = Done`, salve e habilite;
+4. mantenha **Pull request merged** desabilitado quando PRs não forem cartões do Project.
+
+Ao final, **Auto-add to project**, **Item added to project** e **Item closed** devem apresentar ponto verde. **Auto-add sub-issues to project** pode permanecer habilitado. Ícone vermelho em workflow que deve permanecer desligado indica ausência de configuração, não falha de execução.
+
+A IA deve conduzir essa parte uma tela por vez e solicitar confirmação observável. Detalhes e variações da interface estão em [`.ai/github-setup.md`](.ai/github-setup.md#workflows-nativos-recomendados).
+
+### 5. Entregar o bootstrap à IA
+
+Abra sua ferramenta de IA na raiz do derivado e peça:
 
 > Conduza a inicialização da issue indicada pelo script. Leia `AGENTS.md`, `.ai/project-init.md`, `.ai/engineering.md` e `.ai/engineering-context.md`; faça as perguntas mínimas, preencha o contexto técnico apenas com decisões que eu aprovar, atualize todos os artefatos afetados e prepare um draft PR. Não escolha stack, arquitetura ou requisitos sem minha aprovação.
 
-A IA conduzirá a descoberta mínima, criará o checkpoint, abrirá o draft PR, registrará seu número, concluirá os placeholders e preparará a revisão. O procedimento completo e a recuperação de passos interrompidos estão em [`.ai/project-init.md`](.ai/project-init.md) e [`.ai/interaction-guide.md`](.ai/interaction-guide.md).
+A IA deverá:
 
-### Único ajuste manual no GitHub
+1. ler as instruções obrigatórias;
+2. confirmar a issue e a branch de bootstrap;
+3. conduzir a descoberta mínima;
+4. preencher `.ai/vision.md` separando fatos, hipóteses e decisões;
+5. preencher `.ai/engineering-context.md` como `CONFIGURED` ou, para repositório sem software executável, `NOT_APPLICABLE` com justificativa;
+6. registrar apenas stack, arquitetura, comandos e requisitos não funcionais aprovados;
+7. executar as validações aplicáveis;
+8. publicar um checkpoint e abrir draft PR;
+9. remover placeholders materiais e registrar issue, PR, data e responsável;
+10. alterar `.ai/project-init.md` para `COMPLETE` no último commit do bootstrap;
+11. preparar o PR para revisão.
 
-GitHub Template Repository e GitHub CLI não transportam/configuram integralmente os workflows nativos do Project. Abra **Project → Workflows** uma vez e confirme:
+O procedimento canônico está em [`.ai/project-init.md`](.ai/project-init.md); exemplos de conversa e retomada estão em [`.ai/interaction-guide.md`](.ai/interaction-guide.md).
 
-- Auto-add: `repo:SEU_USUARIO/NOVO_PROJETO is:issue`;
-- item adicionado: `Status = Inbox`;
-- issue concluída: `Status = Done`;
-- fechamento `not planned` não representa entrega;
-- workflow de PR integrado desabilitado quando PRs não forem cartões do Project.
+### 6. Revisar e integrar o bootstrap
 
-Ao final, **Auto-add to project**, **Item added to project** e **Item closed** devem aparecer com ponto verde. A IA deve orientar essa configuração passo a passo, solicitar confirmação observável e não declarar o bootstrap remoto integralmente concluído antes disso.
+Antes de integrar, confirme:
 
-O script imprime esse lembrete e o procedimento detalhado está em [`.ai/github-setup.md`](.ai/github-setup.md).
+- `.ai/project-init.md` está `COMPLETE`;
+- `.ai/vision.md` foi aprovado;
+- `.ai/engineering-context.md` foi aprovado e não possui placeholders;
+- checks do PR passaram;
+- limitações e decisões pendentes estão declaradas;
+- workflows manuais do Project foram confirmados.
 
-### Diagnóstico e recuperação
+Quando a política aprovada autorizar, peça à IA para solicitar auto-merge. O comando operacional é:
 
-Em caso de interrupção, configuração parcial ou dúvida, não reinicie cegamente. Execute:
+```sh
+gh pr merge <numero-do-pr> --auto --squash --delete-branch
+```
+
+Auto-merge habilitado no repositório não significa que todo PR verde será integrado. A solicitação é individual, e o GitHub aguarda os controles do Ruleset. Depois do merge, a IA deve confirmar issue concluída, item em `Done`, branch remota removida e `main` local sincronizada.
+
+### 7. Confirmar que o projeto está pronto
+
+Na `main` atualizada:
+
+```sh
+git switch main
+git pull --ff-only
+./scripts/doctor.sh
+```
+
+O projeto está pronto para implementação quando:
+
+- bootstrap está `COMPLETE`;
+- contexto de engenharia está `CONFIGURED`, salvo projeto justificadamente sem software executável;
+- configuração local e remota não possui falhas;
+- backlog inicial pode ser criado sem inventar requisitos;
+- não existe decisão material bloqueante para o próximo item.
+
+Aviso sobre workflows nativos do Project permanece esperado porque o CLI não consegue auditá-los; use a confirmação visual feita na etapa 4.
+
+### 8. Criar e refinar a primeira entrega
+
+Você pode iniciar por uma ideia:
+
+> Quero planejar a primeira entrega: [...]. Atue como Product Strategist, consulte a visão e não implemente ainda.
+
+Depois da descoberta, peça o refinamento:
+
+> Transforme o contexto aprovado em uma issue pequena e verificável. Proponha escopo, fora de escopo, critérios de aceite, riscos e dependências. Não implemente antes da minha aprovação para `Ready`.
+
+A issue deve passar por `Inbox → Refinement → Ready`. A IA não aprova a própria proposta nem define prioridade em seu nome.
+
+### 9. Implementar a primeira issue
+
+Após aprová-la em `Ready`:
+
+> Implemente a issue #<numero>. Leia as políticas e o contexto de engenharia, limite-se ao escopo, execute as verificações aplicáveis, atualize tudo que for afetado e prepare o PR.
+
+A IA deverá:
+
+1. atualizar `main` e criar `feature/<issue>-<slug>`, `bugfix/...`, `technical/...` ou outro tipo permitido;
+2. mover a issue para `In Progress`;
+3. implementar, testar e documentar;
+4. abrir o PR referenciando a issue e movê-la para `Review`;
+5. registrar evidências, segurança, engenharia, limitações e impacto transversal;
+6. solicitar auto-merge somente quando autorizado;
+7. após a integração, concluir issue, Project e limpeza local.
+
+O fluxo detalhado está em [`.ai/workflow.md`](.ai/workflow.md) e as práticas técnicas em [`.ai/engineering.md`](.ai/engineering.md).
+
+### 10. Interromper ou retomar em outra conversa
+
+Para parar com segurança:
+
+> Publique um checkpoint da issue #<numero>, atualize o draft PR com concluído, pendente, verificações e próximo passo, e pare sem ampliar o escopo.
+
+Para retomar:
+
+> Continue o trabalho atual. Inspecione branch, issue, Project, PR e checks antes de alterar qualquer coisa.
+
+Se houver uma única correspondência coerente, a IA retoma sem exigir que você reconte o contexto. Se houver ambiguidade, apresenta as opções. Consulte [`.ai/interaction-guide.md`](.ai/interaction-guide.md#retomar-em-outra-conversa).
+
+### 11. Criar a primeira versão
+
+Depois que a ponta de `main` estiver validada e você autorizar a versão, dispare o workflow controlado com SemVer:
+
+```sh
+gh workflow run create-release-tag.yml \
+  --ref main \
+  -f version=v0.1.0
+```
+
+Acompanhe:
+
+```sh
+gh run list --workflow create-release-tag.yml --limit 1
+gh run list --workflow release.yml --limit 1
+gh release view v0.1.0
+```
+
+O primeiro workflow cria uma tag imutável na ponta de `main`; o segundo confirma que ela pertence à `main` e cria o GitHub Release. Deploy, publicação de pacote, migração e custos externos exigem política específica e não são autorizados apenas pela criação da tag.
+
+### 12. Diagnosticar e recuperar
+
+Em caso de interrupção, configuração parcial ou dúvida, não reinicie cegamente:
 
 ```sh
 ./scripts/doctor.sh
 ```
 
-O diagnóstico é somente leitura e compara estado local e remoto. `start-project.sh` reutiliza uma issue de bootstrap aberta e orienta retomada quando o estado já estiver `IN_PROGRESS` ou `COMPLETE`.
+O diagnóstico é somente leitura. `start-project.sh` reutiliza bootstrap em andamento; a IA deve reconstruir o estado a partir de issue, branch, PR, checks e Project.
+
+Problemas encontrados durante o piloto devem virar issues do projeto afetado. Melhorias genéricas do método podem ser propostas separadamente no Blueprint, pois derivados não recebem atualizações automáticas.
+
+## Validar o próprio Blueprint
 
 Antes de publicar uma nova versão do Blueprint, valide um derivado descartável com [`.ai/template-audit.md`](.ai/template-audit.md).
 
