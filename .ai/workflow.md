@@ -6,6 +6,7 @@
 
 - GitHub e Markdown versionado são a memória oficial.
 - Conversa não é documentação.
+- Português é o idioma padrão dos artefatos e comunicações destinados a pessoas. Inglês permanece somente quando exigido ou favorecido por convenção técnica, ferramenta, API, identificador ou arquitetura; mesmo nesses casos, explicações livres devem permanecer em português.
 - O usuário controla visão, valor, prioridade, escopo e decisões materiais.
 - Hipóteses não são requisitos.
 - Descoberta, planejamento, implementação e revisão são atividades distintas.
@@ -188,6 +189,7 @@ Itens não aplicáveis recebem `N/A` com justificativa curta.
 - [ ] Revisão concluída e bloqueios resolvidos.
 - [ ] Política de merge respeitada.
 - [ ] Issue, PR, Project e documentos coerentes.
+- [ ] Comunicação humana segue o idioma padrão do projeto, ressalvadas convenções técnicas justificadas.
 
 ## Controle de consistência transversal
 
