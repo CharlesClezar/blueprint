@@ -169,6 +169,24 @@ Pedido possível:
 
 O Reviewer usa `.ai/templates/review-report.md` e separa achados bloqueantes de sugestões opcionais.
 
+## Solicitar auto-merge
+
+Pedidos possíveis:
+
+> Quando o PR #51 estiver completo e todos os controles da política forem satisfeitos, solicite auto-merge por squash, acompanhe os checks e conclua a issue e o Project depois da integração.
+
+> Prepare o PR #51, mas não solicite merge; quero revisar e decidir manualmente.
+
+No primeiro caso, a IA não precisa pedir nova confirmação quando a política previamente aprovada já autorizar a integração e não houver decisão material pendente. Ela executa:
+
+```sh
+gh pr merge 51 --auto --squash --delete-branch
+```
+
+O GitHub integra somente quando os requisitos do Ruleset forem satisfeitos. Se um check falhar, a IA diagnostica a causa, mantém a issue em estado coerente e não enfraquece o controle. No segundo caso, entrega o PR e aguarda o usuário.
+
+Após integração confirmada, a IA verifica issue fechada como concluída, DoD satisfeita, item em `Done`, remoção da branch remota e sincronização da `main` local. “Auto-merge habilitado” e “auto-merge solicitado para este PR” são estados diferentes e devem ser comunicados explicitamente.
+
 ## Preparar e publicar versão
 
 Pedidos possíveis:

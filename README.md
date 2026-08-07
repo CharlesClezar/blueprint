@@ -31,6 +31,8 @@ Este é o **repositório-base**. Ao criar um projeto a partir dele, execute o pr
 5. Apenas uma issue aprovada em `Ready` pode ser implementada por vez.
 6. Releases são produzidas de forma controlada a partir de tags; merge não implica publicação automática.
 
+Auto-merge fica disponível, mas precisa ser solicitado individualmente para cada PR elegível. A IA só faz isso quando a política aprovada autorizar e todos os controles aplicáveis estiverem satisfeitos; check verde isolado não concede autorização. Consulte [`.ai/workflow.md`](.ai/workflow.md#integração-e-auto-merge).
+
 ## Criar um projeto derivado — caminho recomendado
 
 Não clone o Blueprint diretamente. Gere um repositório independente pelo template e clone o derivado:

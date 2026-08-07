@@ -70,6 +70,14 @@ Também padroniza o repositório:
 - wiki desabilitada inicialmente;
 - alertas de vulnerabilidade habilitados quando o plano permitir.
 
+Habilitar auto-merge nessa configuração apenas torna o recurso disponível. Isso não cria uma regra para integrar automaticamente todo PR verde. A solicitação é individual e segue a política de `.ai/workflow.md`:
+
+```sh
+gh pr merge <numero> --auto --squash --delete-branch
+```
+
+O comando pode integrar imediatamente quando todos os controles já passaram ou deixar a solicitação pendente até os checks terminarem. Falhas continuam bloqueando o merge.
+
 Use `--yes` somente em automação já revisada:
 
 ```sh

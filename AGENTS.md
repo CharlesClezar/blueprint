@@ -67,6 +67,26 @@ Branches nascem de `main` atualizada e são removidas após o merge.
 - Declare testes não executados, limitações e riscos residuais.
 - Achados fora do escopo devem virar issue de follow-up quando úteis; não altere sua prioridade nem os mova para `Ready`.
 
+## Auto-merge e conclusão
+
+Auto-merge habilitado no repositório apenas disponibiliza o recurso; cada PR precisa receber uma solicitação própria. Quando a política aprovada autorizar e não houver decisão humana pendente, a IA deve:
+
+1. abrir o PR completo e mover a issue para `Review`;
+2. confirmar critérios, evidências, revisão aplicável e ausência de bloqueios;
+3. solicitar o auto-merge sem ignorar controles:
+
+```sh
+gh pr merge <numero> --auto --squash --delete-branch
+```
+
+4. acompanhar os checks; falha mantém o item em `Review` ou o devolve a `In Progress` quando exigir implementação;
+5. nunca desabilitar Ruleset, check ou proteção para forçar a integração;
+6. depois do merge, confirmar PR integrado, issue fechada como concluída e branch remota removida;
+7. mover a issue para `Done` somente após a DoD;
+8. sincronizar `main` local com `git pull --ff-only` e remover a branch local concluída.
+
+Se a política não autorizar auto-merge, houver aceite humano pendente ou existir risco material, entregue o PR validado ao usuário sem solicitar integração. Check verde isolado não concede autorização de merge.
+
 ## Interrupção e retomada
 
 - Trabalho que precise sobreviver à sessão deve ter commits enviados à branch remota e, preferencialmente, um draft PR.
