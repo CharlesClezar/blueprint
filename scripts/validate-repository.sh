@@ -10,6 +10,10 @@ required_files="
 README.md
 AGENTS.md
 CLAUDE.md
+.blueprint/CHANGELOG.md
+.blueprint/source
+.blueprint/version
+.blueprint/manifest.json
 .ai/README.md
 .ai/project-init.md
 .ai/vision.md
@@ -19,11 +23,13 @@ CLAUDE.md
 .ai/security.md
 .ai/engineering.md
 .ai/engineering-context.md
+.ai/blueprint-updates.md
 .ai/github-setup.md
 .ai/decisions/README.md
 .github/pull_request_template.md
 scripts/start-project.sh
 scripts/doctor.sh
+scripts/check-blueprint-update.sh
 "
 
 failed=0
@@ -73,11 +79,32 @@ else
   failed=1
 fi
 
+if ! grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$' .blueprint/version; then
+  echo "ERRO: .blueprint/version deve conter MAJOR.MINOR.PATCH sem prefixo." >&2
+  failed=1
+fi
+
+if ! grep -Eq '^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$' .blueprint/source; then
+  echo "ERRO: .blueprint/source deve conter owner/repository." >&2
+  failed=1
+fi
+
+if [ ! -x scripts/check-blueprint-update.sh ]; then
+  echo "ERRO: scripts/check-blueprint-update.sh precisa ser executável." >&2
+  failed=1
+fi
+
 if ! command -v python3 >/dev/null 2>&1; then
   echo "ERROR: python3 is required for local Markdown link validation." >&2
   failed=1
-elif ! python3 scripts/validate-docs.py; then
-  failed=1
+else
+  if ! python3 -m json.tool .blueprint/manifest.json >/dev/null; then
+    echo "ERRO: .blueprint/manifest.json não contém JSON válido." >&2
+    failed=1
+  fi
+  if ! python3 scripts/validate-docs.py; then
+    failed=1
+  fi
 fi
 
 if [ "$failed" -ne 0 ]; then

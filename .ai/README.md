@@ -16,6 +16,7 @@
 | Segurança, dados, dependências e ações de alto impacto | `.ai/security.md` |
 | Política geral de qualidade e implementação | `.ai/engineering.md` |
 | Stack, comandos e convenções técnicas locais | `.ai/engineering-context.md` |
+| Versão herdada e procedimento de atualização | `.blueprint/` e `.ai/blueprint-updates.md` |
 | Trabalho acionável | GitHub Issue |
 | Estado, prioridade e visão transversal | GitHub Project |
 | Discussão ligada a uma mudança | Issue ou pull request |

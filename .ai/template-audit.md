@@ -13,6 +13,7 @@ Execute esta auditoria depois de publicar ou alterar substancialmente a base. O 
 - [ ] Interromper e retomar o bootstrap para validar idempotência.
 - [ ] Confirmar que o bootstrap não aceita `COMPLETE` enquanto `.ai/engineering-context.md` estiver `NOT_STARTED` ou contiver placeholders materiais.
 - [ ] Preencher o contexto como `CONFIGURED` ou `NOT_APPLICABLE` com justificativa e confirmar que a validação passa.
+- [ ] Executar `scripts/check-blueprint-update.sh` e confirmar a comparação com a release registrada em `.blueprint/version`.
 - [ ] Concluir placeholders e abrir draft PR.
 - [ ] Confirmar que draft incompleto é aceito pela governança básica.
 - [ ] Marcar como pronto com checklist incompleto e confirmar rejeição.
