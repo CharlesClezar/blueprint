@@ -47,5 +47,5 @@ mv "$tmp_file" .ai/project-init.md
 trap - EXIT HUP INT TERM
 
 echo "Bootstrap marked IN_PROGRESS for issue #$issue_number."
-echo "Complete .ai/vision.md and the checklist in .ai/project-init.md; do not invent missing answers."
+echo "Preencha .ai/vision.md, .ai/engineering-context.md e o checklist de .ai/project-init.md; não invente respostas ausentes."
 echo "Before the final bootstrap commit, record the PR number, completion date and authority, then set status to COMPLETE."

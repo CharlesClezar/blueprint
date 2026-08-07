@@ -89,12 +89,12 @@ Concluir o checklist de `.ai/project-init.md`, remover placeholders materiais e 
 - Preencher identidade e visão mínima aprovadas.
 - Revisar segurança, dados e ações externas.
 - Confirmar política de issues, merge, tags e releases.
+- Definir e aprovar o contexto de engenharia, ou justificar que não se aplica.
 - Validar documentação, links e governança.
 
 ## Fora de escopo
 
 - Definir funcionalidades ainda não descobertas.
-- Escolher stack ou arquitetura.
 - Escrever código de produção.
 
 ## Critérios de aceite
@@ -102,6 +102,7 @@ Concluir o checklist de `.ai/project-init.md`, remover placeholders materiais e 
 - [ ] `.ai/project-init.md` está `COMPLETE` e registra data, responsável, issue e PR.
 - [ ] `.ai/vision.md` contém somente fatos, hipóteses e decisões identificadas corretamente.
 - [ ] Não restam placeholders materiais.
+- [ ] `.ai/engineering-context.md` está preenchido e aprovado como `CONFIGURED` ou `NOT_APPLICABLE`.
 - [ ] Configuração remota e workflows nativos do Project foram revisados.
 - [ ] `./scripts/validate-repository.sh` passa.
 - [ ] Draft PR foi preenchido e preparado para revisão.
@@ -174,5 +175,5 @@ fi
 echo
 echo "Bootstrap mechanics completed. Current branch: $branch"
 echo "Next, open your AI tool in this directory and request:"
-echo "  Conduza a inicialização da issue #$issue_number conforme AGENTS.md e .ai/project-init.md."
+echo "  Conduza a inicialização da issue #$issue_number conforme AGENTS.md, .ai/project-init.md, .ai/engineering.md e .ai/engineering-context.md."
 echo "The AI must ask for project decisions, update affected artifacts, validate, and prepare a draft PR."

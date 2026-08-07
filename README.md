@@ -13,6 +13,8 @@ Este é o **repositório-base**. Ao criar um projeto a partir dele, execute o pr
 - [`.ai/backlog.md`](.ai/backlog.md): hierarquia, tipos, estados e regras das issues.
 - [`.ai/interaction-guide.md`](.ai/interaction-guide.md): exemplos práticos para conversar com a IA, interromper e retomar trabalho.
 - [`.ai/security.md`](.ai/security.md): segurança, segredos, conteúdo externo, dependências e ações de alto impacto.
+- [`.ai/engineering.md`](.ai/engineering.md): política geral de qualidade, arquitetura, implementação, testes e revisão.
+- [`.ai/engineering-context.md`](.ai/engineering-context.md): stack, comandos e convenções que cada derivado deve preencher.
 - [`.ai/vision.md`](.ai/vision.md): contexto específico a ser preenchido em cada projeto derivado.
 - [`.ai/project-init.md`](.ai/project-init.md): estado e checklist do bootstrap.
 - [`AGENTS.md`](AGENTS.md): instruções operacionais descobertas pelo Codex e por agentes compatíveis.
@@ -62,11 +64,11 @@ Ele pede confirmação antes de alterar o GitHub e executa, na ordem:
 8. cria `bootstrap/<issue>-inicializar-projeto` a partir de `main`;
 9. marca o bootstrap como `IN_PROGRESS`.
 
-O script não inventa nome, problema, requisitos, stack ou arquitetura. Também não faz commit, push, PR, merge, release ou deploy.
+O script não inventa nome, problema, requisitos, stack ou arquitetura. A IA deve preencher `.ai/engineering-context.md` durante o bootstrap somente com decisões aprovadas pelo usuário e usar `N/A — <justificativa>` no que realmente não se aplicar. O script também não faz commit, push, PR, merge, release ou deploy.
 
 Ao final, abra sua ferramenta de IA na raiz e peça:
 
-> Conduza a inicialização da issue indicada pelo script. Leia `AGENTS.md` e `.ai/project-init.md`, faça as perguntas mínimas, atualize todos os artefatos afetados e prepare um draft PR. Não escolha stack, arquitetura ou requisitos sem minha aprovação.
+> Conduza a inicialização da issue indicada pelo script. Leia `AGENTS.md`, `.ai/project-init.md`, `.ai/engineering.md` e `.ai/engineering-context.md`; faça as perguntas mínimas, preencha o contexto técnico apenas com decisões que eu aprovar, atualize todos os artefatos afetados e prepare um draft PR. Não escolha stack, arquitetura ou requisitos sem minha aprovação.
 
 A IA conduzirá a descoberta mínima, criará o checkpoint, abrirá o draft PR, registrará seu número, concluirá os placeholders e preparará a revisão. O procedimento completo e a recuperação de passos interrompidos estão em [`.ai/project-init.md`](.ai/project-init.md) e [`.ai/interaction-guide.md`](.ai/interaction-guide.md).
 

@@ -65,7 +65,7 @@ Pedido possível:
 
 O Software Engineer deve:
 
-1. confirmar bootstrap, issue, status e dependências;
+1. confirmar bootstrap, contexto de engenharia, issue, status e dependências;
 2. identificar a fonte oficial e pesquisar referências ou consumidores do assunto;
 3. criar `tipo/42-slug` a partir de `main` atualizada;
 4. implementar uma unidade revisável;

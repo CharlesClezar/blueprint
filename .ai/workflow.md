@@ -170,6 +170,7 @@ Se houver uma única correspondência coerente, deve resumir o estado e retomar 
 - [ ] Prioridade e aprovação humana estão claras.
 - [ ] Nenhum requisito material precisa ser inventado.
 - [ ] Bootstrap está `COMPLETE` e não restam placeholders materiais.
+- [ ] Contexto de engenharia está `CONFIGURED`, ou justificadamente `NOT_APPLICABLE` para repositório sem software executável.
 
 Itens não aplicáveis recebem `N/A` com justificativa curta.
 
@@ -190,6 +191,7 @@ Itens não aplicáveis recebem `N/A` com justificativa curta.
 - [ ] Política de merge respeitada.
 - [ ] Issue, PR, Project e documentos coerentes.
 - [ ] Comunicação humana segue o idioma padrão do projeto, ressalvadas convenções técnicas justificadas.
+- [ ] Política de engenharia e contexto específico da stack foram respeitados, com exceções declaradas.
 
 ## Controle de consistência transversal
 

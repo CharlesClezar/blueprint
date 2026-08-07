@@ -21,6 +21,7 @@ Implementação de produto ou tecnologia é proibida enquanto:
 - houver `TODO(PROJECT_INIT)` ou placeholder `<PROJECT_...>` material;
 - `.ai/vision.md` não tiver aprovação mínima;
 - autoridade e política operacional não estiverem registradas.
+- `.ai/engineering-context.md` permanecer `NOT_STARTED` ou contiver placeholders materiais.
 
 Descoberta, planejamento do bootstrap e correção dos próprios placeholders continuam permitidos.
 
@@ -36,6 +37,9 @@ Descoberta, planejamento do bootstrap e correção dos próprios placeholders co
 8. Que informação sensível não pode ser fornecida a assistentes?
 9. Qual política valerá para criação de issues, merge e release?
 10. O projeto precisa publicar versões e, se precisar, qual esquema adotará?
+11. O repositório terá software executável? Se tiver, qual stack mínima atende ao primeiro resultado aprovado?
+12. Quais comandos oficiais preparam, executam, formatam, analisam, testam, constroem e verificam segurança?
+13. Quais convenções de arquitetura, identificadores, erros, logs, testes e compatibilidade precisam ser registradas?
 
 ## Checklist
 
@@ -50,7 +54,10 @@ Descoberta, planejamento do bootstrap e correção dos próprios placeholders co
 - [ ] Autoridade humana e limites de ações externas registrados.
 - [ ] Restrições de dados sensíveis, segredos e conteúdo externo revisadas conforme `.ai/security.md`.
 - [ ] Política de issues, merge, tags e releases confirmada.
-- [ ] Comandos específicos da stack registrados em `AGENTS.md`, quando conhecidos.
+- [ ] `.ai/engineering.md` revisado para compreender a política herdada.
+- [ ] `.ai/engineering-context.md` está `CONFIGURED`, ou `NOT_APPLICABLE` com justificativa para repositório sem software executável.
+- [ ] Stack, comandos, convenções, testes e requisitos não funcionais aplicáveis estão preenchidos sem placeholders materiais.
+- [ ] Decisões estruturais relevantes possuem ADR aprovada ou referência explícita.
 - [ ] Exemplos removíveis eliminados.
 - [ ] Busca por placeholders obrigatórios executada.
 - [ ] PR de bootstrap aberto e ligado à issue.
@@ -70,4 +77,4 @@ Esse helper realiza os passos mecânicos até `IN_PROGRESS`. Ele exige confirma�
 
 ## Critério de conclusão
 
-O bootstrap termina quando o repositório tem identidade própria, visão mínima aprovada, autoridade registrada, nenhum placeholder material, política operacional definida e configuração remota verificada. Isso não significa que stack, arquitetura ou backlog completo estejam definidos.
+O bootstrap termina quando o repositório tem identidade própria, visão mínima aprovada, autoridade registrada, nenhum placeholder material, política operacional definida, contexto de engenharia aprovado e configuração remota verificada. A arquitetura deve estar definida apenas no nível necessário para começar com segurança; decisões ainda não necessárias não devem ser antecipadas.

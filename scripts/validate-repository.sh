@@ -17,6 +17,8 @@ CLAUDE.md
 .ai/backlog.md
 .ai/interaction-guide.md
 .ai/security.md
+.ai/engineering.md
+.ai/engineering-context.md
 .ai/github-setup.md
 .ai/decisions/README.md
 .github/pull_request_template.md
@@ -40,7 +42,7 @@ case "$status" in
     echo "INFO: project initialization status is $status; product implementation remains blocked."
     ;;
   COMPLETE)
-    placeholder_files="README.md AGENTS.md CLAUDE.md .ai/vision.md"
+    placeholder_files="README.md AGENTS.md CLAUDE.md .ai/vision.md .ai/engineering-context.md"
     if grep -En 'TODO\(PROJECT_INIT\)|<PROJECT_[A-Z_]+>|<AFFECTED_CONTEXT_OR_USERS>|<DESIRED_OUTCOME>|<KNOWN_BOUNDARIES>|<DECISION_AUTHORITY>|EXAMPLE_ONLY' $placeholder_files; then
       echo "ERROR: material initialization placeholders remain in an initialized project." >&2
       failed=1
@@ -49,6 +51,14 @@ case "$status" in
       echo "ERROR: completed initialization must record date, authority, issue, and pull request." >&2
       failed=1
     fi
+    engineering_status=$(sed -n 's/^[[:space:]]*status:[[:space:]]*\([A-Z_]*\)[[:space:]]*$/\1/p' .ai/engineering-context.md | head -1)
+    case "$engineering_status" in
+      CONFIGURED|NOT_APPLICABLE) ;;
+      *)
+        echo "ERRO: a inicialização concluída exige contexto de engenharia CONFIGURED ou NOT_APPLICABLE; encontrado '${engineering_status:-ausente}'." >&2
+        failed=1
+        ;;
+    esac
     ;;
   *)
     echo "ERROR: invalid or missing project initialization status: ${status:-<missing>}" >&2
