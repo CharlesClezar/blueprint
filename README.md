@@ -69,15 +69,12 @@ Rulesets para repositórios privados dependem do plano GitHub. Em conta sem supo
 Não clone o Blueprint diretamente. Gere um repositório independente pelo template:
 
 ```sh
-gh repo create SEU_USUARIO/NOVO_PROJETO \
-  --template SEU_USUARIO/blueprint \
-  --private \
-  --clone
+gh repo create SEU_USUARIO/NOVO_PROJETO --template SEU_USUARIO/blueprint --public --clone
 
 cd NOVO_PROJETO
 ```
 
-Use `--public` em vez de `--private` quando apropriado. Não use `--include-all-branches`.
+Copie e execute a linha completa de `gh repo create` sem adicionar barras de continuação (`\`). Use `--private` no lugar de `--public` somente quando a conta oferecer Rulesets para repositórios privados ou quando você aceitar configurar o projeto sem essa proteção. Não use `--include-all-branches`.
 
 Confirme que o remote aponta para o novo projeto, nunca para o Blueprint:
 
